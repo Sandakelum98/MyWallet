@@ -1,8 +1,57 @@
 import React, { Component } from 'react'
 import { StyleSheet, TouchableOpacity } from 'react-native';
-import { Container, Header, Content, Button, Text, View, Item, Input} from 'native-base';
+import { Container, Header, Content, Button, Text, View, Item, Input, Toast} from 'native-base';
 
 export default class RegisterUser extends Component {
+    state={
+        username:'',
+        email:'',
+        password:'',
+
+        baseUrl:'http://192.168.1.103:3000/'
+    }
+
+    registerUser() {
+        const userData = {
+            username:this.state.username,
+            email:this.state.email,
+            password:this.state.password,
+        };
+
+        fetch('http://192.168.1.100:3000/api/v1/userRoute/registerUser', {
+            method: 'POST',
+            headers: {
+                Accept: 'application/json',
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(userData),
+        }).then(response => response.json())
+            .then(json => {
+                console.log(json);
+                if (json.message == 'success') {
+                    alert('Registration success');
+                    console.log(json.data.username+' - '+json.data.email);
+                    this.props.navigation.replace('Dashboard');
+                } else {
+                    alert(json.message);
+                }
+            })
+            .catch(error => {
+                console.log(error);
+                alert('Failed');
+            });
+
+
+        // fetch('http://localhost:3000/api/v1/userRoute/registerUser/', {
+        //     method: 'POST',
+        //     headers: {
+        //         Accept: 'application/json',
+        //         'Content-Type': 'application/json'
+        //     },
+        //     body: JSON.stringify(userData)
+        // });
+    }
+
     render() {
         return(
             <View style={styles.container}>
@@ -15,29 +64,49 @@ export default class RegisterUser extends Component {
 
 
                     <Item rounded style={styles.textField}>
-                        <Input style={{color:"#fff"}} 
+                        <Input style={{ color: "#fff" }}
                             placeholderTextColor='#003f5c'
-                            placeholder='Username'/>
+                            placeholder='Username'
+                            onChangeText={(value) => {
+                                this.setState({
+                                    username: value,
+                                });
+                            }}
+                        />
                     </Item>
 
 
                     <Item rounded style={styles.textField}>
                         <Input style={{color:"#fff"}} 
                             placeholderTextColor='#003f5c'
-                            placeholder='E-mail'/>
+                            placeholder='E-mail'
+                            onChangeText={(value) => {
+                                this.setState({
+                                    email: value,
+                                });
+                            }}
+                            />
                     </Item>
 
 
                     <Item rounded style={styles.textField}>
                         <Input style={{color:"#fff"}} 
                             placeholderTextColor='#003f5c'
-                            placeholder='Password'/>
+                            placeholder='Password'
+                            onChangeText={(value) => {
+                                this.setState({
+                                    password: value,
+                                });
+                            }}
+                            />
                     </Item>
 
 
                     <Button rounded light style={styles.btn}
                     onPress={()=>{
-                        this.props.navigation.navigate('Dashboard')
+                        console.log("---------------------------");
+                        console.log(this.state.username+' - '+this.state.email+' - '+this.state.password);
+                        this.registerUser();
                     }}
                     >
                         <Text style={{color:"#fff"}}>SIGNUP</Text>
@@ -47,7 +116,14 @@ export default class RegisterUser extends Component {
                     <Button rounded light style={styles.btn}>
                         <Text style={{color:"#fff"}}>Cancel</Text>
                     </Button>
-
+                    
+                    <TouchableOpacity
+                    onPress={()=>{
+                        this.props.navigation.replace('Login');
+                    }}
+                    >
+                        <Text style={{color:"#fff"}}>Back to Login</Text>
+                    </TouchableOpacity>
 
                 </View>
 

@@ -1,17 +1,56 @@
 import React, { Component } from 'react';
 import { StyleSheet, TouchableOpacity } from 'react-native';
 import { Container, Header, Content, Button, Text, View, Item, Input} from 'native-base';
+import { Value } from 'react-native-reanimated';
 
 export default class Login extends Component {
-    state={
-        email:"",
-        password:""
-    }
-   
+
+    // state={
+    //     username:'',
+    //     password:'',
+    // }
+    
     constructor(props) {
         super(props);
         this.state = {
+            username: '',
+            password: '',
         };
+    }
+
+
+    loginUser() {
+        const loginData = {
+            username: this.state.username,
+            password: this.state.password,
+        };
+
+        fetch('http://192.168.1.100:3000/api/v1/userRoute/loginUser', {
+            method: 'POST',
+            headers: {
+                Accept: 'application/json',
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(loginData),
+
+        }).then(response => response.json())
+            .then(json => {
+                console.log(json);
+                if (json.message == 'registered user') {
+                    console.log(json.data.username + ' - ' + json.data.email);
+                    this.props.navigation.replace('Dashboard');
+                } else if (json.message == 'Incorrect Password') {
+                    alert('Incorrect password');
+                } else if (json.message == 'Invalid username or not registered yet !') {
+                    alert('Invalid username or not registered yet !');
+                } else {
+                    alert(json.message);
+                }
+            })
+            .catch(error => {
+                console.log(error);
+                alert('Failed');
+            });
     }
 
     render() {
@@ -25,14 +64,31 @@ export default class Login extends Component {
                     <Item rounded style={styles.textField}>
                         <Input style={{color:"#fff"}} 
                             placeholderTextColor='#003f5c'
-                            placeholder='E-mail'/>
+                            placeholder='Username'
+                            value={this.state.username}
+                            onChangeText={value => {
+                                this.setState({
+                                    username: value,
+                                });
+                                // console.log(username);
+                            }}
+                            />
                     </Item>
 
 
                     <Item rounded style={styles.textField}>
                         <Input style={{color:"#fff"}} 
                             placeholderTextColor='#003f5c'
-                            placeholder='Password'/>
+                            placeholder='Password'  
+                            secureTextEntry={true}
+                            value={this.state.password}
+                            onChangeText={value => {
+                                this.setState({
+                                    password: value,
+                                });
+                                // console.log(password);
+                            }}
+                            />
                     </Item>
 
 
@@ -43,7 +99,10 @@ export default class Login extends Component {
 
                     <Button rounded light style={styles.btnLogin}
                     onPress={()=>{
-                        this.props.navigation.replace('Dashboard')
+                        console.log("---------------------------");
+                        console.log(this.state.username+' - '+this.state.password);
+                        this.loginUser();
+                        //this.props.navigation.replace('Dashboard')
                     }}
                     >
                         <Text style={{color:"#fff"}}>LOGIN</Text>
@@ -52,7 +111,7 @@ export default class Login extends Component {
 
                     <TouchableOpacity
                     onPress={()=>{
-                        this.props.navigation.navigate('RegisterUser')
+                        this.props.navigation.replace('RegisterUser')
                     }}
                     >
                         <Text style={{color:"#fff"}}>Signup</Text>
