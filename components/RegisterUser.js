@@ -3,6 +3,7 @@ import { StyleSheet, TouchableOpacity } from 'react-native';
 import { Container, Header, Content, Button, Text, View, Item, Input, Toast} from 'native-base';
 
 export default class RegisterUser extends Component {
+
     state={
         username:'',
         email:'',
@@ -40,16 +41,6 @@ export default class RegisterUser extends Component {
                 console.log(error);
                 alert('Failed');
             });
-
-
-        // fetch('http://localhost:3000/api/v1/userRoute/registerUser/', {
-        //     method: 'POST',
-        //     headers: {
-        //         Accept: 'application/json',
-        //         'Content-Type': 'application/json'
-        //     },
-        //     body: JSON.stringify(userData)
-        // });
     }
 
     render() {
@@ -104,8 +95,8 @@ export default class RegisterUser extends Component {
 
                     <Button rounded light style={styles.btn}
                     onPress={()=>{
-                        console.log("---------------------------");
-                        console.log(this.state.username+' - '+this.state.email+' - '+this.state.password);
+                        // console.log("---------------------------");
+                        // console.log(this.state.username+' - '+this.state.email+' - '+this.state.password);
                         this.registerUser();
                     }}
                     >
