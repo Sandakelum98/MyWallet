@@ -4,11 +4,6 @@ import { Container, Header, Content, Button, Text, View, Item, Input} from 'nati
 import { Value } from 'react-native-reanimated';
 
 export default class Login extends Component {
-
-    // state={
-    //     username:'',
-    //     password:'',
-    // }
     
     constructor(props) {
         super(props);
@@ -99,10 +94,9 @@ export default class Login extends Component {
 
                     <Button rounded light style={styles.btnLogin}
                     onPress={()=>{
-                        console.log("---------------------------");
-                        console.log(this.state.username+' - '+this.state.password);
+                        // console.log("---------------------------");
+                        // console.log(this.state.username+' - '+this.state.password);
                         this.loginUser();
-                        //this.props.navigation.replace('Dashboard')
                     }}
                     >
                         <Text style={{color:"#fff"}}>LOGIN</Text>
@@ -116,14 +110,6 @@ export default class Login extends Component {
                     >
                         <Text style={{color:"#fff"}}>Signup</Text>
                     </TouchableOpacity>
-
-                    {/* <Button style={styles.btnSignup}
-                    onPress={()=>{
-                        this.props.navigation.navigate('RegisterUser')
-                    }}
-                    >
-                        <Text style={{color:"#fff"}}>Signup</Text>
-                    </Button> */}
 
                 </View>
 
