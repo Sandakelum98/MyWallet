@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { StyleSheet, TouchableOpacity } from 'react-native';
 import { Container, Header, Content, Button, Text, View, Item, Input} from 'native-base';
 import { Value } from 'react-native-reanimated';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 export default class Login extends Component {
     
@@ -11,6 +12,22 @@ export default class Login extends Component {
             username: '',
             password: '',
         };
+
+        this.getLoggedUser().then(loggedUser=>{
+            if(loggedUser != null) {
+                this.props.navigation.replace('Dashboard');
+            }
+          });
+    }
+
+    //GET DATA FROM ASYNC STORAGE
+    getLoggedUser = async () => {
+        try {
+            const jsonValue = await AsyncStorage.getItem('loggedUser');
+            return jsonValue != null ? JSON.parse(jsonValue) : null;
+        } catch (e) {
+            console.log('Can not Get data from async')
+        }
     }
 
 
@@ -30,10 +47,12 @@ export default class Login extends Component {
 
         }).then(response => response.json())
             .then(json => {
-                console.log(json);
                 if (json.message == 'registered user') {
-                    console.log(json.data.username + ' - ' + json.data.email);
+                    // console.log(json.data.username + ' - ' + json.data.email);
+
+                    this.storeData(json.data);
                     this.props.navigation.replace('Dashboard');
+
                 } else if (json.message == 'Incorrect Password') {
                     alert('Incorrect password');
                 } else if (json.message == 'Invalid username or not registered yet !') {
@@ -47,6 +66,21 @@ export default class Login extends Component {
                 alert('Failed');
             });
     }
+
+    //Save to async storage
+    storeData = async (value) => {
+        try {
+          const jsonValue = JSON.stringify(value)
+          await AsyncStorage.setItem('loggedUser', jsonValue)
+          console.log('Save data in async storage');
+          //console.log(jsonValue);
+        } catch (e) {
+          alert('user not save in async storage !')
+        }
+    }
+
+
+
 
     render() {
        return(

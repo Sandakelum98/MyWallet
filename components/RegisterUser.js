@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import { StyleSheet, TouchableOpacity } from 'react-native';
 import { Container, Header, Content, Button, Text, View, Item, Input, Toast} from 'native-base';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 export default class RegisterUser extends Component {
 
@@ -28,11 +29,13 @@ export default class RegisterUser extends Component {
             body: JSON.stringify(userData),
         }).then(response => response.json())
             .then(json => {
-                console.log(json);
+                //console.log(json);
                 if (json.message == 'success') {
                     alert('Registration success');
-                    console.log(json.data.username+' - '+json.data.email);
+                   
+                    this.storeData(json.data);
                     this.props.navigation.replace('Dashboard');
+
                 } else {
                     alert(json.message);
                 }
@@ -42,6 +45,20 @@ export default class RegisterUser extends Component {
                 alert('Failed');
             });
     }
+
+
+    //Save to async storage
+    storeData = async (value) => {
+        try {
+          const jsonValue = JSON.stringify(value)
+          await AsyncStorage.setItem('loggedUser', jsonValue)
+          console.log('Save data in async storage');
+          //console.log(jsonValue);
+        } catch (e) {
+          alert('user not save in async storage !')
+        }
+    }
+
 
     render() {
         return(

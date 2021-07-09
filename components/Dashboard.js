@@ -4,10 +4,55 @@ import { Container, Header, Title, Content, Footer, FooterTab, Button, Left, Rig
 import Icon from 'react-native-vector-icons/FontAwesome';
 import Entypo from 'react-native-vector-icons/Entypo';
 import { Col, Row, Grid } from 'react-native-easy-grid';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
-
+let loggedUserId;
 
 export default class Dashboard extends Component {
+
+
+  constructor(props) {
+    super(props);
+    this.getLoggedUser().then(loggedUser=>{
+      if(loggedUser != null) {
+        loggedUserId = loggedUser._id;
+      } else {
+        loggedUserId = null;
+      }
+    });
+  }
+
+  //GET DATA FROM ASYNC STORAGE
+  getLoggedUser = async () => {
+    try {
+      const jsonValue = await AsyncStorage.getItem('loggedUser');
+      return jsonValue != null ? JSON.parse(jsonValue) : null;
+    } catch (e) {
+      console.log('Can not Get data from async')
+    }
+  }
+
+
+  //LOGOUT
+  logout = async () => {
+    try {
+      await AsyncStorage.removeItem('loggedUser');
+      console.log('deleted data from async');
+      this.getLoggedUser().then(loggedUser=>{
+        if(loggedUser != null) {
+          alert('Not Logout !');
+        } else {
+          this.props.navigation.replace('Login');
+        }
+      });
+      
+    } catch(e) {
+      console.log('Can not delete data from async');
+    }
+    //console.log('Done.');
+  }
+
+
   render() {
     return (
       <Container>
@@ -25,7 +70,7 @@ export default class Dashboard extends Component {
                     onPress: () => console.log("Cancel Pressed"),
                     style: "cancel"
                   },
-                  { text: "logout", onPress: () => console.log("OK Pressed") }
+                  { text: "logout", onPress: () => this.logout() }
                 ]
               );
           }}
@@ -83,7 +128,8 @@ export default class Dashboard extends Component {
               <Right>
                 <TouchableOpacity
                   onPress={() => {
-                    // console.log("Hello fucker 1");
+                    
+                    console.log('Logged user id : ',loggedUserId);
                     this.props.navigation.navigate('Income');
                   }}
                 >
@@ -115,7 +161,7 @@ export default class Dashboard extends Component {
               <Right>
               <TouchableOpacity
                 onPress={()=>{
-                  // console.log("Hello fucker 2");
+                  // console.log("Hello 2");
                   this.props.navigation.navigate('Expense');
               }}
                 >

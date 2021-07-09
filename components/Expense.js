@@ -10,32 +10,7 @@ export default class Dashboard extends Component {
     return (
       <Container>
 
-        <Header style={styles.header}>
-          <Left>
-            <Button transparent
-            onPress={()=>{
-              Alert.alert(
-                "LOGOUT",
-                "Are you sure, do you want to logout ? ",
-                [
-                  {
-                    text: "Cancel",
-                    onPress: () => console.log("Cancel Pressed"),
-                    style: "cancel"
-                  },
-                  { text: "logout", onPress: () => console.log("OK Pressed") }
-                ]
-              );
-          }}
-            >
-              <Entypo name="dots-three-horizontal" size={30} color="#fff" />
-            </Button>
-          </Left>
-          <Body>
-            <Title></Title>
-          </Body>
-          <Right />
-        </Header>
+        <Header style={styles.header}></Header>
 
         <Content>
 
