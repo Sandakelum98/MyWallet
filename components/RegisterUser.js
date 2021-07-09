@@ -38,6 +38,7 @@ export default class RegisterUser extends Component {
 
                 } else {
                     alert(json.message);
+                    console.log(json.error);
                 }
             })
             .catch(error => {

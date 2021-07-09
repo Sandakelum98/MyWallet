@@ -121,7 +121,10 @@ export default class Login extends Component {
                     </Item>
 
 
-                    <TouchableOpacity>
+                    <TouchableOpacity
+                    onPress={()=>{
+                        this.props.navigation.replace('ResetPassword');
+                    }}>
                         <Text style={{color:"#fff"}}>Forgot Password?</Text>
                     </TouchableOpacity>
 
