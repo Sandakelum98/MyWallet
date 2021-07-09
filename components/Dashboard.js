@@ -1,9 +1,7 @@
 import React, { Component } from 'react'
 import { View, StyleSheet, Alert, TouchableOpacity } from 'react-native'
 import { Container, Header, Title, Content, Footer, FooterTab, Button, Left, Right, Body, Text, ActionSheet, Card, CardItem } from 'native-base';
-import Icon from 'react-native-vector-icons/FontAwesome';
 import Entypo from 'react-native-vector-icons/Entypo';
-import { Col, Row, Grid } from 'react-native-easy-grid';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 let loggedUserId;
@@ -45,7 +43,6 @@ export default class Dashboard extends Component {
           this.props.navigation.replace('Login');
         }
       });
-      
     } catch(e) {
       console.log('Can not delete data from async');
     }
