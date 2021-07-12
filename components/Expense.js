@@ -43,7 +43,7 @@ export default class Dashboard extends Component {
       userId:loggedUserId,
   };
 
-  fetch('http://192.168.1.100:3000/api/v1/expenseRoute/addExpense', {
+  fetch('http://192.168.1.102:3000/api/v1/expenseRoute/addExpense', {
       method: 'POST',
       headers: {
           Accept: 'application/json',
@@ -139,6 +139,7 @@ export default class Dashboard extends Component {
                   fontSize:15
               }}>Amount</Label>
               <Input 
+              keyboardType="numeric"
               style={{
                 color:'#fff'
               }}
@@ -163,9 +164,9 @@ export default class Dashboard extends Component {
                 marginLeft:50
             }}
             onPress={() => {
-              console.log("---------------------------");
-              console.log(this.state.expenseDate+' - '+this.state.expenseType+' - '+this.state.expenseAmount);
-              console.log(loggedUserId);
+              // console.log("---------------------------");
+              // console.log(this.state.expenseDate+' - '+this.state.expenseType+' - '+this.state.expenseAmount);
+              // console.log(loggedUserId);
               this.addExpense();
           }}
             >

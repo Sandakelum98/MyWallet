@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import { View, StyleSheet, Alert } from 'react-native'
-import { Container, Header, Title, Content, Button, Left, Right, Body, Text, Card, Item, Input, Label } from 'native-base';
+import { Container, Header, Title, Content, Button, Left, Right, Body, Text, Card, Item, Input, Label, SwipeRow, Icon, List, ListItem, Thumbnail } from 'native-base';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 let loggedUserId;
@@ -36,7 +36,7 @@ export default class Dashboard extends Component {
         }
     }
 
-
+    //ADD NEW INCOME
     addIncome() {
         const incomeData = {
             incomeDate:this.state.incomeDate,
@@ -45,7 +45,7 @@ export default class Dashboard extends Component {
             userId:loggedUserId,
         };
 
-        fetch('http://192.168.1.100:3000/api/v1/incomeRoute/addIncome', {
+        fetch('http://192.168.1.102:3000/api/v1/incomeRoute/addIncome', {
             method: 'POST',
             headers: {
                 Accept: 'application/json',
@@ -102,11 +102,11 @@ export default class Dashboard extends Component {
                             <Input style={{
                                 color: '#fff'
                             }}
-                            onChangeText={(value) => {
-                                this.setState({
-                                    incomeDate: value,
-                                });
-                            }}
+                                onChangeText={(value) => {
+                                    this.setState({
+                                        incomeDate: value,
+                                    });
+                                }}
                             />
                         </Item>
 
@@ -122,12 +122,12 @@ export default class Dashboard extends Component {
 
                             <Input style={{
                                 color: '#fff'
-                            }} 
-                            onChangeText={(value) => {
-                                this.setState({
-                                    incomeType: value,
-                                });
                             }}
+                                onChangeText={(value) => {
+                                    this.setState({
+                                        incomeType: value,
+                                    });
+                                }}
                             />
                         </Item>
 
@@ -140,18 +140,20 @@ export default class Dashboard extends Component {
                                 color: '#fff',
                                 fontSize: 15
                             }}>Amount</Label>
-                            <Input style={{
+                            <Input 
+                            keyboardType="numeric"
+                            style={{
                                 color: '#fff'
-                            }} 
-                            onChangeText={(value) => {
-                                this.setState({
-                                    incomeAmount: value,
-                                });
                             }}
+                                onChangeText={(value) => {
+                                    this.setState({
+                                        incomeAmount: value,
+                                    });
+                                }}
                             />
                         </Item>
 
-                        
+
 
 
                         <Button rounded light style={{
@@ -163,12 +165,12 @@ export default class Dashboard extends Component {
                             marginTop: 20,
                             marginLeft: 50
                         }}
-                        onPress={() => {
-                            console.log("---------------------------");
-                            console.log(this.state.incomeDate+' - '+this.state.incomeType+' - '+this.state.incomeAmount);
-                            console.log(loggedUserId);
-                            this.addIncome();
-                        }}
+                            onPress={() => {
+                                // console.log("---------------------------");
+                                // console.log(this.state.incomeDate + ' - ' + this.state.incomeType + ' - ' + this.state.incomeAmount);
+                                // console.log(loggedUserId);
+                                this.addIncome();
+                            }}
                         >
                             <Text style={{
                                 color: "#fff",
@@ -187,15 +189,59 @@ export default class Dashboard extends Component {
                             marginBottom: 20,
                             marginLeft: 50
                         }}
-                        onPress={() => {
-                            this.props.navigation.navigate('Dashboard');
-                          }}
+                            onPress={() => {
+                                this.props.navigation.navigate('Dashboard');
+                            }}
                         >
                             <Text style={{ color: "#fff" }}>Cancel</Text>
                         </Button>
 
 
                     </Card>
+
+                    <View style={styles.incomeListContainer}>
+
+                        <SwipeRow
+                            leftOpenValue={75}
+                            rightOpenValue={-75}
+                            left={
+                                <Button success onPress={() => alert('Add')}>
+                                    <Text>Edit</Text>
+                                </Button>
+                            }
+                            body={
+                                <View>
+                                    <Text>SwipeRow Body Text</Text>
+                                </View>
+                            }
+                            right={
+                                <Button danger onPress={() => alert('Trash')}>
+                                    <Icon active name="trash" />
+                                </Button>
+                            }
+                        />
+
+                        <SwipeRow
+                            leftOpenValue={75}
+                            rightOpenValue={-75}
+                            left={
+                                <Button success onPress={() => alert('Add')}>
+                                    <Text>Edit</Text>
+                                </Button>
+                            }
+                            body={
+                                <View>
+                                    <Text>SwipeRow Body Text</Text>
+                                </View>
+                            }
+                            right={
+                                <Button danger onPress={() => alert('Trash')}>
+                                    <Icon active name="trash" />
+                                </Button>
+                            }
+                        />
+
+                    </View>
 
                 </Content>
             </Container>
@@ -220,6 +266,10 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         justifyContent: 'center',
         backgroundColor: '#003f5c'
+    },
+    incomeListContainer:{
+        marginTop:20,
+        marginBottom:50,
     }
 
 })

@@ -9,8 +9,6 @@ export default class RegisterUser extends Component {
         username:'',
         email:'',
         password:'',
-
-        baseUrl:'http://192.168.1.103:3000/'
     }
 
     registerUser() {
@@ -20,7 +18,7 @@ export default class RegisterUser extends Component {
             password:this.state.password,
         };
 
-        fetch('http://192.168.1.100:3000/api/v1/userRoute/registerUser', {
+        fetch('http://192.168.1.102:3000/api/v1/userRoute/registerUser', {
             method: 'POST',
             headers: {
                 Accept: 'application/json',

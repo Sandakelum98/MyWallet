@@ -4,6 +4,8 @@ import { Container, Header, Content, Button, Text, View, Item, Input} from 'nati
 import { Value } from 'react-native-reanimated';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
+var baseUrl = 'http://192.168.1.102:3000/api/v1/userRoute/';
+
 export default class Login extends Component {
     
     constructor(props) {
@@ -37,7 +39,7 @@ export default class Login extends Component {
             password: this.state.password,
         };
 
-        fetch('http://192.168.1.100:3000/api/v1/userRoute/loginUser', {
+        fetch(baseUrl+'loginUser', {
             method: 'POST',
             headers: {
                 Accept: 'application/json',
